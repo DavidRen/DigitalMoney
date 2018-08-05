@@ -170,7 +170,7 @@ if __name__ == '__main__':
 
                     count += 1
                     print("获取第"+str(count)+"数据")
-                    if count == 3:
+                    if count == 4:
                         exit(1)
                     # print(data)
                     #zecusdt.insert_many(data)
