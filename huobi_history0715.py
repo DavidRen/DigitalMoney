@@ -99,7 +99,7 @@ def json_to_csv(object_list):
 
     titleArr, rows = get_title_rows(json_ob)
 
-    with open("""/Users/chandler/Downloads/"""+contractName+"""_data.csv""", 'a') as csvfile:
+    with open("/Users/Chandler/Downloads/"+contractName+"_data.csv", 'a') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(titleArr)
         int = 0
@@ -170,7 +170,8 @@ if __name__ == '__main__':
 
                     count += 1
                     print("获取第"+str(count)+"数据")
-                    exit(1)
+                    if count == 3:
+                        exit(1)
                     # print(data)
                     #zecusdt.insert_many(data)
         except Exception as e:
