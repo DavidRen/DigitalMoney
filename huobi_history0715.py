@@ -15,7 +15,7 @@ zecusdt = con.exchange.zecusdt
 
 global globalTime
 # 获取历史数据起始时间
-globalTime = 1531924191
+globalTime = 1523109600
 
 ##合约名字
 global contractName
@@ -23,12 +23,12 @@ contractName = 'btc'
 
 ##k线时间单位 1分钟k线
 global period
-period = 1
+period = 60
 
 
 ##时间跨度
 global timeLen
-timeLen = 18000
+timeLen = 300*60*period
 
 # 1506787200
 
@@ -101,7 +101,8 @@ def json_to_csv(object_list):
 
     with open("/Users/Chandler/Downloads/"+contractName+"_data.csv", 'a') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(titleArr)
+        if(count == 1):##只有第一次打印标题
+            writer.writerow(titleArr)
         int = 0
         for row in rows:
             rowdata = []
@@ -130,9 +131,14 @@ if __name__ == '__main__':
             # ws = create_connection("wss://api.hadax.com/ws")
             # ws = create_connection("wss://api.huobipro.com/ws")
             while True:
-                globalTime += 18000
+
                 # tradeStr = """{"sub": "market.ethusdt.kline.1min","id": "id10"}"""
                 tradeStr = """{"req": "market."""+contractName+"""usdt.kline."""+str(period)+"""min","id": "id10", "from": """ + str(globalTime) + """, "to":""" + str(globalTime + timeLen) + """ }"""
+                count += 1
+                print("获取第" + str(count) + "数据，时间范围" +
+                      time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(globalTime)) +
+                                    ">>>" +
+                                    time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(globalTime + timeLen)))
                 ws.send(tradeStr)
                 compressData = ws.recv()
                 if compressData != '':
@@ -167,9 +173,7 @@ if __name__ == '__main__':
                     # print(data)
                     json_to_csv(data)
                     # db.close()
-
-                    count += 1
-                    print("获取第"+str(count)+"数据")
+                    globalTime += timeLen
                     if count == 4:
                         exit(1)
                     # print(data)
