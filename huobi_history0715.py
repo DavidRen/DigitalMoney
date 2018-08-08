@@ -134,7 +134,7 @@ if __name__ == '__main__':
 
                 # tradeStr = """{"sub": "market.ethusdt.kline.1min","id": "id10"}"""
                 tradeStr = """{"req": "market."""+contractName+"""usdt.kline."""+str(period)+"""min","id": "id10", "from": """ + str(globalTime) + """, "to":""" + str(globalTime + timeLen) + """ }"""
-                print("获取第" + str(count) + "数据，时间范围" +
+                print("获取第" + str(count) + "次数据，时间范围" +
                       time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(globalTime)) +
                                     ">>>" + time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(globalTime + timeLen)))
                 ws.send(tradeStr)
@@ -173,7 +173,7 @@ if __name__ == '__main__':
                     # db.close()
                     globalTime += timeLen
                     count +=1
-                    if count == 4:
+                    if count == 5:
                         exit(1)
                     # print(data)
                     #zecusdt.insert_many(data)
