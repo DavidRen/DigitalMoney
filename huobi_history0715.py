@@ -110,7 +110,7 @@ def json_to_csv(object_list):
 
             for title in titleArr:
                 if title == 'time':
-                    timeStr = time.localtime(globalTime + int * period * 60)
+                    timeStr = time.localtime(row['id'])
                     rowdata.append(time.strftime('%Y-%m-%d %H:%M:%S', timeStr))
                 else :
                     rowdata.append(row[title])
@@ -119,7 +119,7 @@ def json_to_csv(object_list):
 
 
 global count
-count = 0
+count = 1
 global x
 x = globalTime
 
@@ -134,11 +134,9 @@ if __name__ == '__main__':
 
                 # tradeStr = """{"sub": "market.ethusdt.kline.1min","id": "id10"}"""
                 tradeStr = """{"req": "market."""+contractName+"""usdt.kline."""+str(period)+"""min","id": "id10", "from": """ + str(globalTime) + """, "to":""" + str(globalTime + timeLen) + """ }"""
-                count += 1
                 print("获取第" + str(count) + "数据，时间范围" +
                       time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(globalTime)) +
-                                    ">>>" +
-                                    time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(globalTime + timeLen)))
+                                    ">>>" + time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(globalTime + timeLen)))
                 ws.send(tradeStr)
                 compressData = ws.recv()
                 if compressData != '':
@@ -174,6 +172,7 @@ if __name__ == '__main__':
                     json_to_csv(data)
                     # db.close()
                     globalTime += timeLen
+                    count +=1
                     if count == 4:
                         exit(1)
                     # print(data)
